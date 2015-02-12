@@ -40,6 +40,9 @@ Thumbs.db
 # Project Specific #
 ####################
 node_modules/
+lib/stanford-corenlp-*/
+
+
 
 # IDE #
 #######

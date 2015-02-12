@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  p Use this operation to analyze a string with Standford core nlp
+  p @method : POST
+  p @parameters (json) : {"string" : "my text to analyze" }
+  p @return (json) : corenlp analyze of your text
