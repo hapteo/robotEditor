@@ -12,16 +12,14 @@ robotEditorServer est développé en javascript + node.js. La partie nlp nécess
 
 Hapteo utilise les frameforks suivants :
 
-• [Standord CoreNLP](http://nlp.stanford.edu/software/corenlp.shtml)
+* [Standord CoreNLP](http://nlp.stanford.edu/software/corenlp.shtml)
+* Stanford-core-nlp dans sa version wrapper node.js [core-nlp-master](https://github.com/hiteshjoshi/node-stanford-corenlp).
+
+robotEditorServer utilise [Stanford CoreNLP](http://nlp.stanford.edu/software/corenlp.shtml) v3.4 ou supérieur. Vous devrez installer ce framework dans le réperoire /lib et  définir le chenin vers ce répertoire et sa version dans index.js (ex : var config = {"nlpPath":"./lib/stanford-corenlp-3.4","version":"3.4"};
+)
+Stanford Corenlp nécessite l'installation de JAVA. Ne pas oublier de  d'avoir défni comme variable d'environnement [JAVA_HOME](https://github.com/nearinfinity/node-java).
 
 
 
 
-node-stanford-simple-nlp depends on [Stanford CoreNLP](http://nlp.stanford.edu/software/corenlp.shtml) v3.4 or more. And don't forget to [set proper environment variables](https://github.com/nearinfinity/node-java) like `JAVA_HOME` in your system.
 
-**Important!** You should download `stanford-corenlp-full-2014-06-16.zip` file and unzip to a folder and provide the path in the configuration. You can download the file from [here](http://nlp.stanford.edu/software/stanford-corenlp-full-2014-06-16.zip).
-
-
-
-
-Standford-core-nlp dans sa version wrapper node.js [core-nlp-master](https://github.com/hiteshjoshi/node-stanford-corenlp).
