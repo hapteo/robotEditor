@@ -3,7 +3,7 @@ var router = express.Router();
 
 console.log("******* BE Patient : Core nlp is loading, it might take up to one minute… ");
 var NLP = require('stanford-corenlp');
-var config = {"nlpPath":"./lib/stanford_core_nlp_34","version":"3.4"};
+var config = {"nlpPath":"./lib/stanford-corenlp-34","version":"3.4"};
 
 var isCorenlpEnabled = true;
 var coreNLP;
