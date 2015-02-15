@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    p 
+        h1 test the analyze method
+
+    form(method="post" action="/analyze")
+        textarea(name="string", id="string").
+            bonjour comment allez-vous ?
+        br
+        input(type="submit")
+
+    if answer
+        p= answer

@@ -3,9 +3,9 @@ var router = express.Router();
 
 console.log("******* BE Patient : Core nlp is loading, it might take up to one minute… ");
 var NLP = require('stanford-corenlp');
-var config = {"nlpPath":"./lib/stanford-corenlp-3.4","version":"3.4"};
+var config = {"nlpPath":"./lib/stanford_core_nlp_34","version":"3.4"};
 
-var isCorenlpEnabled = false;
+var isCorenlpEnabled = true;
 var coreNLP;
 var corenlpSample;
 
@@ -46,31 +46,42 @@ router.get('/analyze', function(req, res, next) {
 	res.render('analyze', { title: '/analyze' });
 });
 
+/* GET Documentation : test the workflow. */
+router.get('/test', function(req, res, next) {
+	res.render('test', {title: 'test'});
+});
+
 
 /* POST analyze page with string. */
 router.post('/analyze', function(req, res, next) {
 
 	var params = getParams(req);
+	var output = "no answer";
 
 	if (params.string === undefined || params.string.length == 0) {
-		res.status(500).send("Body malformed : String parameter is missing");
+		output="Body malformed : String parameter is missing";
+		res.render('test', { title: 'test', answer:output });
 	} else {
 		if (isCorenlpEnabled) {
 			//send text to coreNLP and return result with status 200		
 			coreNLP.process(params.string, function(err, result) {
-				//console.log('\n'+JSON.stringify(result));
-				var needles = phraseCleaner.clean(result);
-				var images = imageSearcher.searchImage(needles);
-				res.status(200).send(images);
+				output = JSON.stringify(result);
+				res.render('test', { title: 'test', answer:output });
+				//var needles = phraseCleaner.clean(result);
+				//var images = imageSearcher.searchImage(needles);
+				//res.status(200).send(images);
 			});
 		} else {
+			output = "user input is recognized !";
+			res.render('test', { title: 'test', answer:output });
 			//use corenlpSamples.samplexxx 		
 			//console.log('\n'+JSON.stringify(corenlpSample.sample1));
-			var needles = phraseCleaner.clean(corenlpSample.sample1);
-			var images = imageSearcher.searchImage(needles);
-			res.status(200).send(images);
+			//var needles = phraseCleaner.clean(corenlpSample.sample1);
+			//var images = imageSearcher.searchImage(needles);
+			//res.status(200).send(images);
 		}
 	}
+	
 
 });
 
