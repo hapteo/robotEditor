@@ -25,7 +25,7 @@ L'utilisation de googleapis nécessite d'avoir à disposition:
 * une clef pour l'API custom search. Cette clef peut-être obtenue via [la console d'un projet](https://console.developers.google.com/project?_ga=1.123096587.1006488701.1424181039)
 * L'identifiant d'un moteur de recherhe personnalisé (CX). Un tel moteur peut être créé sur [cette page](https://www.google.com/cse/all). Il vaut mieux le paramétrer comme pouvant accéder à "tout internet"
 
-Ces deux clefs doivent ensuite être placées dans un fichier private_keys.js, qui n'est pas inclu dans les sources par mesure de sécurité. Il suffit de placer à l'intérieur le contenu suivant:
+Ces deux clefs doivent ensuite être placées dans un fichier private_keys.js, qui n'est pas inclu dans les sources par mesure de sécurité. Il suffit de placer à l'intérieur le contenu ci-dessous, puis de le mettre dans le dossier routes.
 
 ```javascript
 var api = 'YOUR_API_KEY';
