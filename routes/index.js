@@ -47,7 +47,12 @@ router.post('/analyze', function(req, res, next) {
 	} else {
 		nlp.userTextAnalysis(params.string).then(
 			function(result){
-				res.render('test', { title: 'test', answer:JSON.stringify(result) });
+				var html="";
+				var nb= result.length;
+				for(var cpt=0; cpt<nb; cpt++){
+					html+="<"+result[cpt].needle+">";
+				}
+				res.render('test', { title: 'test', answer:html });
 			},
 			function(error){
 				res.render('test', { title: 'test', answer:error });
