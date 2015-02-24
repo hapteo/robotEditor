@@ -12,4 +12,7 @@ block content
         input(type="submit")
 
     if answer
-        p= answer
+        ul
+            each url in answer
+                li= url
+

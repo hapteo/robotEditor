@@ -1,3 +1,5 @@
+"use strict";
+
 /**
 	This module will take care of all the nlp process,
 	including the call to stanford-corenlp
@@ -119,4 +121,4 @@ Nlp.prototype.processText = function(text){
 var getInstance = function(){
 	return new Nlp();
 };
-exports.getInstance = getInstance;
+module.exports.getInstance = getInstance;

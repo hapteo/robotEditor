@@ -1,4 +1,4 @@
-
+"use strict";
 
 /**
 * This is an easier way to deal with the stanford parser results AND to transfer user input analysis from class
@@ -10,7 +10,7 @@ function Sentence(){
 	this.literal = "";
 	this.needle = "";
 	this.img = [];
-	this.webResult = [];
+	this.web = [];
 }
 
 /**
@@ -62,4 +62,4 @@ Sentence.prototype.extractNeedle=function(){
 var getInstance = function(){
 	return new Sentence();
 };
-exports.getInstance = getInstance;
+module.exports.getInstance = getInstance;
