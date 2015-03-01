@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 /**
 	This module will take care of all the nlp process,
@@ -11,7 +11,7 @@ var sentence = require('./sentence');
 * This class takes care of every aspct of NLP: text processing, semantic ananlysis...
 */
 function Nlp(){
-	this.isCoreNlpEnabled = false;
+	this.isCoreNlpEnabled = true;
 	this.stanfordConfig = {"nlpPath":"./lib/stanford-corenlp-34","version":"3.4"};
 	this.stanford = require('stanford-corenlp');
 	this.coreNLP = null;
@@ -49,11 +49,15 @@ Nlp.prototype.userTextAnalysis = function(text){
 			var userInputRepresentation = [];
 			var sentences = ctx.extractSentences(result);
 			var nbSentences = sentences.length;
+
 			for(var cpt=0; cpt<nbSentences; cpt++){
 				var s = sentence.getInstance();
 				s.generateSentence(sentences[cpt]);
+				s.setOrder(cpt);
 				userInputRepresentation.push(s);
 			}
+
+			console.log("user input analysis completed, "+nbSentences+" sentences found");
 			deferred.resolve(userInputRepresentation);
 		},
 		function(error){
@@ -78,7 +82,7 @@ Nlp.prototype.extractSentences = function(parsedText){
 	// sentence is a table of JSON object: {$, tokens, parse, dependencies, parsedTree}
 	var tmp = parsedText.document.sentences.sentence;
 	var nbSentences= tmp.length;
-	console.log('nbsentence get: '+nbSentences);
+
 	for(var cpt=0; cpt<nbSentences; cpt++){
 		res.push(tmp[cpt]);
 	}

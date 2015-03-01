@@ -13,6 +13,7 @@ block content
 
     if answer
         ul
-            each url in answer
-                li= url
+            each sentence in answer
+                li
+                    img(src="#{sentence.img[0].url}", alt="#{sentence.img[0].url}", title="#{sentence.literal}", width=300, height=300)
 

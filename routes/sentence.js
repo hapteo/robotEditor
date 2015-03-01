@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 /**
 * This is an easier way to deal with the stanford parser results AND to transfer user input analysis from class
@@ -11,6 +11,7 @@ function Sentence(){
 	this.needle = "";
 	this.img = [];
 	this.web = [];
+	this.order = 0;
 }
 
 /**
@@ -25,6 +26,14 @@ Sentence.prototype.generateSentence=function(parsedSentence){
 	this.needle = this.extractNeedle();
 }
 
+/**
+* Define the location of the sentence in the text, can be considered as an identifier
+* @param {order:integer} the sentence's order
+* @return [0:integer]
+*/
+Sentence.prototype.setOrder=function(order){
+	this.order = order;
+};
 /**
 * Create a string to recover the original sentence
 * @param {JSON} the stanford tokens list

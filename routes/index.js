@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 var express = require('express');
 var router = express.Router();
@@ -35,8 +35,9 @@ router.get('/test', function(req, res, next) {
 });
 
 
-/* POST analyze page with string. 
-TODO: sanitize user input !
+/** 
+* POST analyze page with string. 
+* @todo: sanitize user input !
 */
 router.post('/analyze', function(req, res, next) {
 
@@ -49,20 +50,28 @@ router.post('/analyze', function(req, res, next) {
 	} else {
 		// This function takes all the user's text and sends back a table of Sentences{tokens, nbTokens, literal, needle, img, web}
 		nlp.userTextAnalysis(params.string).then(
-			function(result){
-				// once sentences are separated, web search is done to retrieve relevant web content
-				var s = webSearcher.go(result).then(
+			function(sentences_apart){
 
-					function(result){
+				// once sentences are separated, web search is done to retrieve relevant web content
+				webSearcher.go(sentences_apart).then(
+
+					function(sentences_completed){
+						/*
+						var test = [];
+						for(var cpt=0; cpt<sentences_completed.length; cpt++){
+							if(sentences_completed[cpt].img[0].url){
+								test.push(sentences_completed[cpt].img[0].url);
+							}
+							else{
+								test.push("http://undefined.fr");	
+							}
+							
+						}
+						*/
+						res.render('test', { title: 'test', answer:sentences_completed });		
+
 						// Now, all the sentences have been attached to images and webresult. Nlp is once again used 
 						// to rank these results
-						var test = [];
-						for(var cpt=0; cpt<s.length; cpt++){
-							console.log(s[cpt].img[0].url);
-							test.push(s[cpt].img[0].url);
-						}			
-						test.push('http://test');
-						res.render('test', { title: 'test', answer:test });		
 					},
 					function(error){
 						res.render('test', { title: 'test', answer:error });
