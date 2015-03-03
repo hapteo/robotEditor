@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    p 
+        h1 test the analyze method
+
+    form(method="post" action="/analyze")
+        textarea(name="string", id="string").
+            Marinatos commença sa carrière en Crète comme directeur du musée archéologique d'Héraklion en 1929 où il rencontra Sir Arthur John Evans, le découvreur de Cnossos. Marinatos a conduit lui-même de nombreuses fouilles à Dreros, Arkalochori, Vathypetro et à Gazi, dont résultèrent de précieuses informations sur les civilisations grecques archaïques. En 1937, il devint pour la première fois directeur du service des Antiquités grecques. Peu de temps après, il accéda à un poste de professeur à l'université d'Athènes. Son attention se tourna alors vers les Mycéniens, les considérant comme les premiers « vrais » Grecs. Il fit de nombreuses recherches sur des sites mycéniens, en particulier dans le Péloponnèse, découvrant la tombe royale de Routsi, non loin de Pylos. Il essaya aussi de découvrir des témoignages des batailles de Marathon et des Thermopyles sur les lieux mêmes de ces combats menés par les Grecs antiques.
+            Sa découverte la plus importante fut sûrement celle du site d'Akrotiri, une cité portuaire minoenne dans l’île de Théra (appelée de nos jours Santorin). La ville fut détruite par une gigantesque éruption (éventrant l’île), qui recouvrit aussi les ruines de ses habitations. D’ailleurs, les tsunamis créés par cette éruption dévastèrent de nombreux littoraux dont ceux de la Crète, cœur de la civilisation minoenne. De cet événement serait née d'après lui la légende de l’Atlantide. Marinatos commença les fouilles en 1967 et mourut sans avoir terminé ses recherches, en 1974, sur l’île de Théra.
+        br
+        input(type="submit")
+
+    if answer
+        ul
+            each sentence in answer
+                li
+                    img(src="#{sentence.img[0].url}", alt="#{sentence.img[0].url}", title="#{sentence.literal}", width=300, height=300)
+

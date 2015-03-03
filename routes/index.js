@@ -1,27 +1,10 @@
+//"use strict";
+
 var express = require('express');
 var router = express.Router();
-
-console.log("******* BE Patient : Core nlp is loading, it might take up to one minute… ");
-var NLP = require('stanford-corenlp');
-var config = {"nlpPath":"./lib/stanford-corenlp-3.4","version":"3.4"};
-
-var isCorenlpEnabled = false;
-var coreNLP;
-var corenlpSample;
-
-//Set isCorenlpEnabled to true to enable corenlp parsing otherwise will use one of the sample result (corenlpSample.sample1, corenlpSample.sample2…) set in corenlpSamples.js
-if (isCorenlpEnabled) {
-	coreNLP = new NLP.StanfordNLP(config)
-	coreNLP.loadPipelineSync();
-}
-else 
-	corenlpSample = require('./corenlpSamples');
-
-console.log("******* Core nlp is loaded… ");
-
-
-var phraseCleaner = require ("./phraseCleaner")
-var imageSearcher = require ("./imageSearcher")
+var webSearcher = require ("./webSearcher").getInstance();
+var nlp = require('./nlp.js').getInstance();
+var q = require('q');
 
 //get params from body
 var getParams  = function(req) { 
@@ -46,31 +29,63 @@ router.get('/analyze', function(req, res, next) {
 	res.render('analyze', { title: '/analyze' });
 });
 
+/* GET Documentation : test the workflow. */
+router.get('/test', function(req, res, next) {
+	res.render('test', {title: 'test'});
+});
 
-/* POST analyze page with string. */
+
+/** 
+* POST analyze page with string. 
+* @todo: sanitize user input !
+*/
 router.post('/analyze', function(req, res, next) {
 
 	var params = getParams(req);
+	var output = "no answer";
 
 	if (params.string === undefined || params.string.length == 0) {
-		res.status(500).send("Body malformed : String parameter is missing");
+		output="Body malformed : String parameter is missing";
+		res.render('test', { title: 'test', answer:output });
 	} else {
-		if (isCorenlpEnabled) {
-			//send text to coreNLP and return result with status 200		
-			coreNLP.process(params.string, function(err, result) {
-				//console.log('\n'+JSON.stringify(result));
-				var needles = phraseCleaner.clean(result);
-				var images = imageSearcher.searchImage(needles);
-				res.status(200).send(images);
-			});
-		} else {
-			//use corenlpSamples.samplexxx 		
-			//console.log('\n'+JSON.stringify(corenlpSample.sample1));
-			var needles = phraseCleaner.clean(corenlpSample.sample1);
-			var images = imageSearcher.searchImage(needles);
-			res.status(200).send(images);
-		}
+		// This function takes all the user's text and sends back a table of Sentences{tokens, nbTokens, literal, needle, img, web}
+		nlp.userTextAnalysis(params.string).then(
+			function(sentences_apart){
+
+				// once sentences are separated, web search is done to retrieve relevant web content
+				webSearcher.go(sentences_apart).then(
+
+					function(sentences_completed){
+						/*
+						var test = [];
+						for(var cpt=0; cpt<sentences_completed.length; cpt++){
+							if(sentences_completed[cpt].img[0].url){
+								test.push(sentences_completed[cpt].img[0].url);
+							}
+							else{
+								test.push("http://undefined.fr");	
+							}
+							
+						}
+						*/
+						res.render('test', { title: 'test', answer:sentences_completed });		
+
+						// Now, all the sentences have been attached to images and webresult. Nlp is once again used 
+						// to rank these results
+					},
+					function(error){
+						res.render('test', { title: 'test', answer:error });
+					}
+				).done();
+				
+			},
+			function(error){
+				res.render('test', { title: 'test', answer:error });
+			}
+
+		).done();
 	}
+	
 
 });
 

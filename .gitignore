@@ -25,6 +25,7 @@
 *.log
 *.sql
 *.sqlite
+private_*
 
 # OS generated files #
 ######################
@@ -41,6 +42,7 @@ Thumbs.db
 ####################
 node_modules/
 lib/stanford-corenlp-*/
+
 
 
 
